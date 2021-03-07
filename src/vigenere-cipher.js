@@ -1,7 +1,5 @@
 const CustomError = require("../extensions/custom-error");
 
-const a = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-
 class VigenereCipheringMachine {
     constructor(direct) {
         this.reversed = direct === false;
