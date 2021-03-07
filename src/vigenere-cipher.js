@@ -1,14 +1,39 @@
 const CustomError = require("../extensions/custom-error");
 
+const a = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
 class VigenereCipheringMachine {
-  encrypt() {
-    throw new CustomError('Not implemented');
-    // remove line with error and write your code here
-  }    
-  decrypt() {
-    throw new CustomError('Not implemented');
-    // remove line with error and write your code here
-  }
+    constructor(direct) {
+        this.reversed = direct === false;
+    }
+
+    encrypt(message, key, decrypt) {
+        if (arguments.length < 2) throw  new Error();
+        let alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+            result = [];
+
+        message = Array.from(message.toUpperCase());
+        key = key.slice(0, message.length).toUpperCase();
+
+        for (let i = 0; i < message.length; i++) {
+            if (alphabet.includes(message[i])) {
+                let messageIdx = alphabet.indexOf(message[i]);
+                let keyLetter = key[((i >= key.length) ? (i % key.length) : i)];
+                let keyIdx = alphabet.indexOf(keyLetter);
+                keyIdx = decrypt ? -keyIdx : keyIdx;
+                let cipher = alphabet[(alphabet.length + messageIdx + keyIdx) % alphabet.length];
+                result.push(cipher);
+            } else {
+                result.push(message.splice(i, 1));
+                i--;
+            }
+        }
+        return this.reversed ? result.reverse().join('') : result.join('');
+    }
+
+    decrypt(encryptedMessage, key) {
+        return this.encrypt(encryptedMessage, key, true);
+    }
 }
 
 module.exports = VigenereCipheringMachine;
