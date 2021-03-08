@@ -16,8 +16,7 @@ class VigenereCipheringMachine {
         for (let i = 0; i < message.length; i++) {
             if (alphabet.includes(message[i])) {
                 let messageIdx = alphabet.indexOf(message[i]);
-                let keyLetter = key[((i >= key.length) ? (i % key.length) : i)];
-                let keyIdx = alphabet.indexOf(keyLetter);
+                let keyIdx = alphabet.indexOf(key[i % key.length]);
                 keyIdx = decrypt ? -keyIdx : keyIdx;
                 let cipher = alphabet[(alphabet.length + messageIdx + keyIdx) % alphabet.length];
                 result.push(cipher);
